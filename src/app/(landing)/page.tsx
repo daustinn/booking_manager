@@ -1,5 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 
+import Link from 'next/link'
+
 // import { connectToMongoDB, getCollection } from '@/config/mongodb'
 
 export default async function Home() {
@@ -7,5 +9,9 @@ export default async function Home() {
 
   // const collection = getCollection('users')
   // const users = await collection.find().toArray()
-  return <div>{/* <pre>{JSON.stringify(users, null, 2)}</pre> */}</div>
+  return (
+    <div>
+      <Link href="/dashboard">Dashboard</Link>
+    </div>
+  )
 }
