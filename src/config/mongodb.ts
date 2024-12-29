@@ -1,7 +1,6 @@
 import { MongoClient, type Db, type Collection } from 'mongodb'
 
 const url = process.env.MONGODB_URL
-
 const client = new MongoClient(url!)
 
 let db: Db
@@ -21,5 +20,5 @@ export function getCollection(collectionName: string): Collection {
 
 export async function connectToMongoDB() {
   await client.connect()
-  db = client.db(process.env.MONGO_DATABASE)
+  db = client.db(process.env.MONGODB_DATABASE)
 }
