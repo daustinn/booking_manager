@@ -1,61 +1,98 @@
 'use client'
 
+import { RoomType } from '@/types/room'
 import {
   Button,
+  Input,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Select,
+  SelectItem,
+  Switch,
+  Textarea
 } from '@nextui-org/react'
 import React from 'react'
-import { PlusIcon } from './_grid'
+import { useFormStatus } from 'react-dom'
+import { HiPlus } from 'react-icons/hi'
 
-export default function FormRoom() {
+export default function FormRoom({
+  create,
+  roomTypes
+}: {
+  create: (form: FormData) => Promise<void>
+  roomTypes: RoomType[]
+}) {
   const [isOpen, setIsOpen] = React.useState(false)
+  const { pending } = useFormStatus()
   return (
     <>
       <Button
-        className="bg-foreground text-background"
+        color="primary"
         onPress={() => setIsOpen(true)}
-        endContent={<PlusIcon />}
+        endContent={<HiPlus />}
         size="sm"
       >
-        Add New
+        Registrar habitacion
       </Button>
       <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                Registrar nueva habitación
               </ModalHeader>
               <ModalBody>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam pulvinar risus non risus hendrerit venenatis.
-                  Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                </p>
-                <p>
-                  Magna exercitation reprehenderit magna aute tempor cupidatat
-                  consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                  incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                  aliqua enim laboris do dolor eiusmod. Et mollit incididunt
-                  nisi consectetur esse laborum eiusmod pariatur proident Lorem
-                  eiusmod et. Culpa deserunt nostrud ad veniam.
-                </p>
+                <form
+                  action={(form) => {
+                    create(form).then(() => onClose())
+                  }}
+                  id="form"
+                  className="grid gap-4"
+                >
+                  <Select
+                    name="roomTypeId"
+                    required
+                    placeholder="Tipo de Habitacion"
+                  >
+                    {roomTypes.map((roomType) => (
+                      <SelectItem
+                        endContent={
+                          <p className="text-xs font-medium ">
+                            {roomType.price.toLocaleString('es-PE', {
+                              style: 'currency',
+                              currency: 'PEN'
+                            })}
+                          </p>
+                        }
+                        key={roomType._id}
+                        value={roomType._id}
+                      >
+                        {roomType.name}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                  <Input name="name" required label="Nombre corto" />
+                  <Textarea label="Descripción" name="description" required />
+                  <Input name="image" type="file" label="Imagen" required />
+                  <Switch name="available" defaultSelected>
+                    Disponible
+                  </Switch>
+                </form>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                  Cancelar
                 </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
+                <Button
+                  isLoading={pending}
+                  form="form"
+                  type="submit"
+                  color="primary"
+                >
+                  Registrar
                 </Button>
               </ModalFooter>
             </>

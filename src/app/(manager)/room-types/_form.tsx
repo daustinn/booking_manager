@@ -10,31 +10,24 @@ import {
   ModalHeader
 } from '@nextui-org/react'
 import React from 'react'
-import { PlusIcon } from '../rooms/_grid'
-import { createRoomType } from '@/app/actions'
+import { HiPlus } from 'react-icons/hi'
 
-export default function FormRoomType() {
+export default function FormRoomType({
+  create
+}: {
+  create: (form: FormData) => Promise<void>
+}) {
   const [isOpen, setIsOpen] = React.useState(false)
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const form = e.currentTarget as HTMLFormElement
-    const data = new FormData(form)
-    const name = data.get('name') as string
-    const price = data.get('price') as string
-
-    await createRoomType(name, Number(price))
-  }
 
   return (
     <>
       <Button
-        className="bg-foreground text-background"
+        color="primary"
         onPress={() => setIsOpen(true)}
-        endContent={<PlusIcon />}
+        endContent={<HiPlus />}
         size="sm"
       >
-        Add New
+        Crear tipo de habitación
       </Button>
       <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
         <ModalContent>
@@ -44,7 +37,13 @@ export default function FormRoomType() {
                 Registrar nuevo tipo de habitación
               </ModalHeader>
               <ModalBody>
-                <form onSubmit={handleSubmit} id="form" className="grid gap-4">
+                <form
+                  action={(form) => {
+                    create(form).then(() => onClose())
+                  }}
+                  id="form"
+                  className="grid gap-4"
+                >
                   <Input name="name" label="Nombre" required />
                   <Input name="price" label="Precio" required type="number" />
                 </form>

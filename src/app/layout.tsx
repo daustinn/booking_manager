@@ -4,6 +4,9 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import NextUIProvider from '@/providers/nextui'
 
+import { ClerkProvider } from '@clerk/nextjs'
+import { neobrutalism, shadesOfPurple } from '@clerk/themes'
+import { esMX } from '@clerk/localizations'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin']
@@ -25,12 +28,22 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NextUIProvider>{children}</NextUIProvider>
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: [neobrutalism],
+        signIn: {
+          baseTheme: [shadesOfPurple]
+        }
+      }}
+      localization={esMX}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <NextUIProvider>{children}</NextUIProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

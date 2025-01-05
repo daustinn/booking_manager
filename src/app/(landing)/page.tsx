@@ -1,17 +1,14 @@
 /* eslint-disable react/react-in-jsx-scope */
+import { getAvailableRooms } from '@/services/rooms'
+import FormBooking from './form'
+import { getBookingsByCurrentUser } from '@/services/booking'
+// import { auth } from '@clerk/nextjs/server'
 
-import Link from 'next/link'
-
-// import { connectToMongoDB, getCollection } from '@/config/mongodb'
+export const dynamic = 'force-static'
+export const revalidate = 60
 
 export default async function Home() {
-  // await connectToMongoDB()
-
-  // const collection = getCollection('users')
-  // const users = await collection.find().toArray()
-  return (
-    <div>
-      <Link href="/dashboard">Dashboard</Link>
-    </div>
-  )
+  const rooms = await getAvailableRooms()
+  const userBookings = await getBookingsByCurrentUser()
+  return <FormBooking rooms={rooms} userBookings={userBookings} />
 }
