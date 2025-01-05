@@ -1,10 +1,15 @@
-import { type ObjectId } from 'mongodb'
+import { Room } from './room'
 
 export type Booking = {
-  _id: ObjectId
-  customerId: ObjectId
-  roomId: ObjectId
-  stripeId: string
+  _id: string
+  roomId: string
+  bookingNumber: string
+  customerName: string
+  customerEmail: string
+  customerPhotoURL: string
+  room?: Room
+  stripeCheckoutSessionId: string
+  stripePaymentIntentId: string
   checkIn: Date
   checkOut: Date
   clerkUserId: string
