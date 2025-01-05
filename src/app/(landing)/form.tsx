@@ -119,23 +119,23 @@ export default function FormBooking(props: {
         </p>
       </div>
       <div className="flex flex-col gap-3 justify-center items-center pt-5">
-        {props.userBookings.map((booking) => {
-          if (booking.clerkUserId.toString() !== user?.id.toString())
+        {props.userBookings.map((booking, index) => {
+          if (booking.clerkUserId.toString() !== user?.id?.toString())
             return null
           return (
             <div
               className="border-2 rounded-full p-2 font-semibold px-3"
-              key={booking._id}
+              key={index}
             >
               {booking.room?.name} -{' '}
               <span className="text-rose-600 font-semibold">
-                {booking.room?.type?.price.toLocaleString('es-PE', {
+                {booking.room?.type?.price?.toLocaleString('es-PE', {
                   style: 'currency',
                   currency: 'PEN'
                 })}
               </span>{' '}
-              ({new Date(booking.checkIn).toLocaleDateString()} -{' '}
-              {new Date(booking.checkOut).toLocaleDateString()})
+              ({new Date(booking.checkIn)?.toLocaleDateString()} -{' '}
+              {new Date(booking.checkOut)?.toLocaleDateString()})
             </div>
           )
         })}
@@ -169,7 +169,7 @@ export default function FormBooking(props: {
                 </div>
                 <div>
                   <p className="font-semibold text-base">
-                    {room.type?.price.toLocaleString('es-PE', {
+                    {room.type?.price?.toLocaleString('es-PE', {
                       style: 'currency',
                       currency: 'PEN',
                       minimumFractionDigits: 2

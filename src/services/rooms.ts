@@ -22,6 +22,19 @@ export async function getRooms(): Promise<{
     createdAt: roomType.createdAt.toString(),
     updatedAt: roomType.updatedAt.toString()
   }))
+
+  const type = (id: string) => {
+    const t = roomTypes.find((type) => type._id.toString() === id)
+    return {
+      _id: t!._id.toString(),
+      name: t!.name,
+      price: t!.price,
+      clerkUser: t!.clerkUser,
+      createdAt: t!.createdAt?.toString(),
+      updatedAt: t!.updatedAt?.toString()
+    }
+  }
+
   return {
     rooms: rooms.map((room) => ({
       _id: room._id.toString(),
@@ -31,9 +44,7 @@ export async function getRooms(): Promise<{
       image: room.image,
       roomTypeId: room.roomTypeId,
       description: room.description,
-      type: roomTypes.find(
-        (type) => type._id.toString() === room.roomTypeId.toString()
-      ),
+      type: type(room.roomTypeId.toString()),
       createdAt: room.createdAt.toString(),
       updatedAt: room.updatedAt.toString()
     })),
@@ -72,12 +83,12 @@ export async function getAvailableRooms(): Promise<Room[]> {
         description: room.description,
         name: room.name,
         type: {
-          _id: room.type[0]._id.toString(),
-          name: room.type[0].name,
-          price: room.type[0].price,
-          clerkUser: room.type[0].clerkUser,
-          createdAt: room.type[0].createdAt.toString(),
-          updatedAt: room.type[0].updatedAt.toString()
+          _id: room.type[0]?._id?.toString(),
+          name: room.type[0]?.name,
+          price: room.type[0]?.price,
+          clerkUser: room.type[0]?.clerkUser,
+          createdAt: room.type[0]?.createdAt?.toString(),
+          updatedAt: room.type[0]?.updatedAt?.toString()
         },
         createdAt: room.createdAt?.toString(),
         updatedAt: room.updatedAt?.toString()

@@ -98,12 +98,12 @@ export async function getBookingsByCurrentUser(): Promise<Booking[]> {
       image: booking.room[0].image,
       name: booking.room[0].name,
       type: {
-        _id: booking.type[0]._id.toString(),
-        name: booking.type[0].name,
-        price: booking.type[0].price,
-        clerkUser: booking.type[0].clerkUser,
-        createdAt: booking.type[0].createdAt.toString(),
-        updatedAt: booking.type[0].updatedAt.toString()
+        _id: booking.type[0]?._id.toString(),
+        name: booking.type[0]?.name,
+        price: booking.type[0]?.price,
+        clerkUser: booking.type[0]?.clerkUser,
+        createdAt: booking.type[0]?.createdAt.toString(),
+        updatedAt: booking.type[0]?.updatedAt.toString()
       }
     }
   })) as unknown as Booking[]

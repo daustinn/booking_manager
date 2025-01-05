@@ -19,7 +19,7 @@ export default function User({
   const displayRole = {
     'org:customer': 'Cliente',
     'org:admin': 'Administrador'
-  }[user.member.role]
+  }[user.member?.role]
 
   const { user: aUser } = useUser()
 
@@ -46,10 +46,10 @@ export default function User({
             variant="dot"
             size="sm"
             color={
-              user.member.role === 'org:customer' ? 'secondary' : 'success'
+              user.member?.role === 'org:customer' ? 'secondary' : 'success'
             }
           >
-            {displayRole}
+            {displayRole ?? 'Cliente'}
           </Chip>
         </div>
         <div>
